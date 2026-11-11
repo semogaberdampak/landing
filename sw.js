@@ -3,7 +3,7 @@
 */
 "use strict";
 
-const VERSION = "portal-kita-v9";
+const VERSION = "portal-kita-v10";
 const PAGE_CACHE = VERSION + "-pages";
 const ASSET_CACHE = VERSION + "-assets";
 
