@@ -364,6 +364,16 @@
     });
   }
 
+  function pushToCloud(draft) {
+    if (!window.PORTAL_SUPABASE || !window.PortalBackend.configured || !authState) return;
+    window.PortalBackend.saveContent(draft).then(function () {
+      try { window.PortalBackend.markDirty(false); } catch (e) {}
+    }).catch(function (err) {
+      try { window.PortalBackend.markDirty(true); } catch (e) {}
+      UI.toast("Tersimpan lokal; sinkron cloud gagal. Akan dicoba lagi.", { type: "warn" });
+    });
+  }
+
   function persist(mutator, toastMessage) {
     const draft = JSON.parse(JSON.stringify(data));
     try {
@@ -371,6 +381,7 @@
       data = S.write(draft);
       renderAll();
       flashSaved();
+      pushToCloud(draft);
       if (toastMessage) UI.toast(toastMessage, { type: "success" });
       return true;
     } catch (err) {
@@ -856,6 +867,10 @@
       if (remote) {
         data = S.hydrate(remote);
         renderAll();
+      } else {
+        // seed cloud dengan data lokal pertama kali agar pengunjung ikut membaca cloud
+        await window.PortalBackend.saveContent(data);
+        try { window.PortalBackend.markDirty(false); } catch (e) {}
       }
     } catch (err) {
       /* mode offline / sedang login: biarkan yang lama */
@@ -979,6 +994,7 @@
             const parsed = JSON.parse(String(reader.result || ""));
             data = S.write(parsed);
             renderAll();
+            pushToCloud(data);
             UI.toast("Data dipulihkan.", { type: "success" });
           } catch (err) {
             UI.alert({ title: "Gagal membaca berkas", message: "Pastikan berkas JSON yang valid.", icon: "alert", tone: "danger" });
@@ -1002,6 +1018,7 @@
           if (!ok) return;
           data = S.reset();
           renderAll();
+          pushToCloud(data);
           UI.toast("Dikembalikan ke konten contoh.", { type: "success" });
         });
       });

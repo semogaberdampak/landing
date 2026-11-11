@@ -87,6 +87,23 @@ Artinya:
      halaman publik membaca data dan admin menulis setelah login. Ini yang perlu
      ditambahkan bila panel harus dipakai banyak pengelola.
 
+## Setup Supabase (konten bersama)
+
+1. Buat proyek di Supabase.
+2. Buka **SQL Editor**, jalankan seluruh isi `supabase/schema.sql`.
+3. **Authentication → Providers → Email**: matikan *Confirm email* (atau buat user
+   dengan *Auto Confirm* di **Authentication → Users**) agar login langsung jalan.
+4. Buat user admin di **Authentication → Users** (email + password).
+5. Isi `assets/js/config.js`:
+   ```js
+   window.PORTAL_SUPABASE = {
+     url: "https://PROJECT.supabase.co", // boleh tanpa https://
+     anonKey: "eyJ..." // anon public key
+   };
+   ```
+6. Deploy. Saat admin pertama kali login, data lokal akan otomatis disalin ke
+   cloud (seed). Setelah itu semua pengunjung membaca dari cloud.
+
 ## Keamanan dasar
 
 - Selalu akses lewat HTTPS (Vercel menyediakannya otomatis).

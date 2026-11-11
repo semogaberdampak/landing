@@ -6,7 +6,9 @@
   "use strict";
 
   const CFG = global.PORTAL_SUPABASE || {};
-  const BASE = String(CFG.url || "").replace(/\/+$/, "");
+  let RAW_URL = String(CFG.url || "").trim();
+  if (RAW_URL && !/^https?:\/\//i.test(RAW_URL)) RAW_URL = "https://" + RAW_URL.replace(/^\/+/, "");
+  const BASE = RAW_URL.replace(/\/+$/, "");
   const ANON_KEY = String(CFG.anonKey || "").trim();
   const CONFIGURED = /^https?:\/\//.test(BASE) && ANON_KEY.length > 30;
   const AUTH_KEY = "portal-kita:auth:v1";
@@ -84,9 +86,7 @@
       {
         Accept: "application/json",
         apikey: ANON_KEY,
-        "Content-Type": "application/json",
-        "x-ui": "portal-kita",
-        "x-client-version": "portal-kita-static"
+        "Content-Type": "application/json"
       },
       extra || {}
     );
@@ -159,18 +159,16 @@
       access_token: raw.access_token,
       refresh_token: raw.refresh_token,
       expires_at: expiresAt,
-      email: raw.email || null,
+      email: (raw.user && raw.user.email) || raw.email || null,
       last_seen: new Date().toISOString()
     };
   }
 
   function refreshSession(refreshToken) {
-    return request("/auth/v1/token?" + new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: refreshToken
-    }), {
+    return request("/auth/v1/token?" + new URLSearchParams({ grant_type: "refresh_token" }), {
       method: "POST",
-      headers: { apikey: ANON_KEY, "Content-Type": "application/json" }
+      headers: { apikey: ANON_KEY, "Content-Type": "application/json" },
+      body: { refresh_token: refreshToken }
     })
       .then(function (data) {
         return upsertSession(data);
@@ -199,35 +197,14 @@
   }
 
   async function firstToken() {
-    let token = await accessToken();
-    if (token) return token;
-    const session = readSession();
-    if (session && !session.refresh_token) return null;
-    try {
-      const res = await request("/auth/v1/token?" + new URLSearchParams({
-        grant_type: "password",
-        email: session ? session.email : "",
-        password: ""
-      }), {
-        method: "POST",
-        headers: { apikey: ANON_KEY }
-      });
-      const next = upsertSession(res);
-      writeSession(next);
-      return next.access_token;
-    } catch (err) {
-      return null;
-    }
+    return accessToken();
   }
 
   async function signIn(email, password) {
-    const res = await request("/auth/v1/token?" + new URLSearchParams({
-      grant_type: "password",
-      email: email,
-      password: password
-    }), {
+    const res = await request("/auth/v1/token?" + new URLSearchParams({ grant_type: "password" }), {
       method: "POST",
-      headers: { apikey: ANON_KEY, "Content-Type": "application/json" }
+      headers: { apikey: ANON_KEY, "Content-Type": "application/json" },
+      body: { email: email, password: password }
     });
     const session = upsertSession(res);
     writeSession(session);
@@ -257,10 +234,8 @@
   }
 
   async function getContent() {
-    const token = await firstToken();
     const data = await request(contentReadPath(), {
-      method: "GET",
-      token: token
+      method: "GET"
     });
     if (!Array.isArray(data) || data.length === 0) return null;
     const row = data[0];
@@ -269,10 +244,12 @@
   }
 
   async function saveContent(data) {
-    const token = await firstToken();
+    const token = await accessToken();
+    if (!token) throw authError("Belum login. Silakan login ulang.");
     const options = {
       method: "POST",
       token: token,
+      headers: { Prefer: "resolution=merge-duplicates,return=representation" },
       body: {
         id: CONTENT_ROW,
         data: data,
@@ -280,16 +257,14 @@
       }
     };
 
-    const res = await request(contentPath(), options).catch(function (err) {
+    try {
+      return await request(contentPath(), options);
+    } catch (err) {
       if (err && err.status === 401) {
-        return firstToken().then(function (next) {
-          if (!next) throw err;
-          return request(contentPath(), Object.assign({}, options, { token: next }));
-        });
+        clearSession();
       }
       throw err;
-    });
-    return res;
+    }
   }
 
   async function markDirty(force) {
