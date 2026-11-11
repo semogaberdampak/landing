@@ -131,6 +131,10 @@
               <span data-icon="check" data-size="14"></span>
               <span>Tersimpan otomatis</span>
             </span>
+            <button class="btn btn--ghost btn--sm" id="logoutBtn" type="button" hidden>
+              <span data-icon="shield" data-size="16"></span>
+              <span>Keluar</span>
+            </button>
             <button class="btn btn--primary btn--sm" id="addBtn" type="button">
               <span data-icon="plus" data-size="17"></span>
               <span id="addBtnLabel">Tambah portal</span>
@@ -154,9 +158,11 @@
             </div>
           </div>
           <div class="ui-form">
-            <label class="ui-field"><span class="ui-field__label">Email</span><input class="ui-input" id="authEmail" type="email" /></label>
-            <label class="ui-field"><span class="ui-field__label">Kata sandi</span><input class="ui-input" id="authPassword" type="password" /></label>
+            <label class="ui-field" id="authEmailField"><span class="ui-field__label">Email</span><input class="ui-input" id="authEmail" type="email" /></label>
+            <label class="ui-field"><span class="ui-field__label">Kata sandi</span><input class="ui-input" id="authPassword" type="password" autocomplete="current-password" /></label>
+            <label class="ui-field" id="authConfirmField" hidden><span class="ui-field__label">Ulangi kata sandi</span><input class="ui-input" id="authPassword2" type="password" autocomplete="new-password" /></label>
           </div>
+          <p class="adminEmpty" id="authHint" style="margin:8px 0 0"></p>
           <div class="panelCard__foot">
             <button class="btn btn--primary btn--sm" id="authSubmit" type="button">Masuk</button>
             <span id="authState" class="panelCard__state"></span>

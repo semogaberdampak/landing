@@ -494,49 +494,207 @@
     });
   }
 
+  const LOCAL_AUTH_KEY = "portal-kita:admin:v1";
+  const LOCAL_SESSION_KEY = "portal-kita:admin:session:v1";
+  const LOCAL_SESSION_TTL = 60 * 60 * 1000; // 1 jam
+
+  function bytesToHex(buf) {
+    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+  }
+
+  async function sha256(text) {
+    const data = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+    return bytesToHex(hash);
+  }
+
+  function localAuthRecord() {
+    try { return JSON.parse(localStorage.getItem(LOCAL_AUTH_KEY) || "null"); } catch (e) { return null; }
+  }
+
+  function hasLocalPassword() {
+    const rec = localAuthRecord();
+    return !!(rec && rec.salt && rec.hash);
+  }
+
+  async function setLocalPassword(password) {
+    const salt = crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(36).slice(2) + Date.now().toString(36));
+    const hash = await sha256(salt + "::" + password);
+    localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify({ salt: salt, hash: hash, createdAt: Date.now() }));
+  }
+
+  async function verifyLocalPassword(password) {
+    const rec = localAuthRecord();
+    if (!rec) return false;
+    const hash = await sha256(rec.salt + "::" + password);
+    return hash === rec.hash;
+  }
+
+  function isLocalSessionValid() {
+    try {
+      const raw = sessionStorage.getItem(LOCAL_SESSION_KEY);
+      if (!raw) return false;
+      const s = JSON.parse(raw);
+      return !!(s && s.expires && s.expires > Date.now());
+    } catch (e) { return false; }
+  }
+
+  function createLocalSession() {
+    try { sessionStorage.setItem(LOCAL_SESSION_KEY, JSON.stringify({ expires: Date.now() + LOCAL_SESSION_TTL })); } catch (e) {}
+  }
+
+  function clearLocalSession() {
+    try { sessionStorage.removeItem(LOCAL_SESSION_KEY); } catch (e) {}
+  }
+
+  function showLocalGate(mode) {
+    const gate = $("#authGate");
+    const page = $(".admin");
+    const emailField = $("#authEmailField");
+    const confirmField = $("#authConfirmField");
+    const hint = $("#authHint");
+    const submit = $("#authSubmit");
+    const title = gate ? gate.querySelector("h2") : null;
+    const sub = gate ? gate.querySelector("p") : null;
+    if (emailField) emailField.hidden = true;
+    if (gate) gate.hidden = false;
+    if (page) page.hidden = true;
+    if (mode === "setup") {
+      if (confirmField) confirmField.hidden = false;
+      if (title) title.textContent = "Buat kata sandi admin";
+      if (sub) sub.textContent = "Pertama kali: buat kata sandi untuk panel ini.";
+      if (hint) hint.textContent = "Minimal 8 karakter. Simpan kata sandi ini baik-baik.";
+      if (submit) submit.textContent = "Simpan kata sandi";
+    } else {
+      if (confirmField) confirmField.hidden = true;
+      if (title) title.textContent = "Login pengelola";
+      if (sub) sub.textContent = "Masukkan kata sandi admin.";
+      if (hint) hint.textContent = "";
+      if (submit) submit.textContent = "Masuk";
+    }
+  }
+
   function initAuth() {
     const gate = $("#authGate");
     const page = $(".admin");
     const state = $("#syncState");
-    const action = $("#authAction");
-    if (!window.PORTAL_SUPABASE || !window.PortalBackend.configured) {
-      if (gate) gate.hidden = true;
-      if (state) state.textContent = "Mode lokal";
-      if (action) action.hidden = true;
+    const logoutBtn = $("#logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", function () {
+        clearLocalSession();
+        authState = null;
+        if (window.PORTAL_SUPABASE && window.PortalBackend.configured) {
+          try { window.PortalBackend.signOut(); } catch (e) {}
+        }
+        location.reload();
+      });
+    }
+
+    /* mode cloud (Supabase) */
+    if (window.PORTAL_SUPABASE && window.PortalBackend.configured) {
+      const session = window.PortalBackend.readSession();
+      authState = session;
+      if (session) {
+        if (gate) gate.hidden = true;
+        if (page) page.hidden = false;
+        if (state) state.textContent = "Login ok, menunggu sinkron.";
+        if (logoutBtn) logoutBtn.hidden = false;
+      if (logoutBtn) logoutBtn.addEventListener("click", function () { clearLocalSession(); authState = null; try { window.PortalBackend.signOut(); } catch (e) {} location.reload(); });
+        return;
+      }
+      if (gate) gate.hidden = false;
+      if (page) page.hidden = true;
+      if (state) state.textContent = "Mode cloud (offline)";
+      const emailField = $("#authEmailField");
+      const confirmField = $("#authConfirmField");
+      if (emailField) emailField.hidden = false;
+      if (confirmField) confirmField.hidden = true;
+
+      const submit = $("#authSubmit");
+      if (submit) {
+        submit.addEventListener("click", async function () {
+          const email = (($("#authEmail") || {}).value || "").trim();
+          const password = ($("#authPassword") || {}).value || "";
+          if (!email || !password) {
+            UI.toast("Isi email dan kata sandi.", { type: "warn" });
+            return;
+          }
+          try {
+            await window.PortalBackend.signIn(email, password);
+            authState = window.PortalBackend.readSession();
+            if (gate) gate.hidden = true;
+            if (page) page.hidden = false;
+            if (state) state.textContent = "Login ok.";
+            if (logoutBtn) logoutBtn.hidden = false;
+            await refreshDataFromCloud();
+            initSubscription();
+          } catch (err) {
+            UI.toast((err && err.message) || "Gagal login.", { type: "danger" });
+          }
+        });
+      }
       return;
     }
-    const session = window.PortalBackend.readSession();
-    authState = session;
-    if (session) {
+
+    /* mode lokal: gate kata sandi */
+    if (state) state.textContent = "Mode lokal";
+    if (!hasLocalPassword()) {
+      showLocalGate("setup");
+    } else if (isLocalSessionValid()) {
       if (gate) gate.hidden = true;
       if (page) page.hidden = false;
-      if (state) state.textContent = "Login ok, menunggu sinkron.";
+      if (logoutBtn) logoutBtn.hidden = false;
       return;
+    } else {
+      showLocalGate("login");
     }
-    if (gate) gate.hidden = false;
-    if (page) page.hidden = true;
-    if (state) state.textContent = "Mode lokal (offline)";
 
     const submit = $("#authSubmit");
     if (submit) {
       submit.addEventListener("click", async function () {
-        const email = (($("#authEmail") || {}).value || "").trim();
         const password = ($("#authPassword") || {}).value || "";
-        if (!email || !password) {
-          UI.toast("Isi email dan kata sandi.", { type: "warn" });
+        const password2 = ($("#authPassword2") || {}).value || "";
+        if (!hasLocalPassword()) {
+          if (password.length < 8) {
+            UI.toast("Kata sandi minimal 8 karakter.", { type: "warn" });
+            return;
+          }
+          if (password !== password2) {
+            UI.toast("Konfirmasi kata sandi tidak cocok.", { type: "warn" });
+            return;
+          }
+          try {
+            await setLocalPassword(password);
+            createLocalSession();
+            if (gate) gate.hidden = true;
+            if (page) page.hidden = false;
+            if (logoutBtn) logoutBtn.hidden = false;
+            UI.toast("Kata sandi admin tersimpan.", { type: "success" });
+          } catch (err) {
+            UI.toast("Gagal menyimpan kata sandi.", { type: "danger" });
+          }
           return;
         }
-        try {
-          await window.PortalBackend.signIn(email, password);
-          authState = window.PortalBackend.readSession();
-          if (gate) gate.hidden = true;
-          if (page) page.hidden = false;
-          if (state) state.textContent = "Login ok.";
-          await refreshDataFromCloud();
-          initSubscription();
-        } catch (err) {
-          UI.toast((err && err.message) || "Gagal login.", { type: "danger" });
+        const ok = await verifyLocalPassword(password);
+        if (!ok) {
+          UI.toast("Kata sandi salah.", { type: "danger" });
+          return;
         }
+        createLocalSession();
+        if (gate) gate.hidden = true;
+        if (page) page.hidden = false;
+        if (logoutBtn) logoutBtn.hidden = false;
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", function () {
+        clearLocalSession();
+        authState = null;
+        if (window.PORTAL_SUPABASE && window.PortalBackend.configured) {
+          try { window.PortalBackend.signOut(); } catch (e) {}
+        }
+        location.reload();
       });
     }
   }

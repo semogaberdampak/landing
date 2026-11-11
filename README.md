@@ -75,14 +75,27 @@ Artinya:
 
 - Perubahan yang kamu buat di admin hanya terlihat di perangkat itu; pengunjung
   lain tetap melihat data default dari `assets/js/store.js`.
-- Panel tidak punya autentikasi. Menyembunyikan tautan bukan pengamanan; siapa pun
-  yang membuka `admin.html` bisa mengubah tampilan **di perangkatnya sendiri**.
+- Panel kini punya gerbang kata sandi lokal (SHA-256 + sessionStorage, kedaluwarsa 1 jam).
+  Ini hanya pengamanan di sisi klien: siapa pun yang bisa membuka DevTools atau
+  menghapus `localStorage` tetap bisa melewati/mengatur ulang. Untuk keamanan nyata,
+  gunakan mode Supabase (email + password + RLS) atau backend lain.
+- Menyembunyikan tautan (`admin.html` / 5 ketukan) bukan pengamanan; jangan andalkan itu.
 - Untuk menyebarkan konten ke semua pengunjung, pilih salah satu:
   1. **Ekspor/impor manual (sekarang):** admin → Data → Ekspor JSON, lalu jadikan
      isi JSON itu nilai default di `store.js` dan deploy ulang.
   2. **Backend bersama:** Supabase (Postgres + Auth + RLS) atau sejenisnya, dengan
      halaman publik membaca data dan admin menulis setelah login. Ini yang perlu
      ditambahkan bila panel harus dipakai banyak pengelola.
+
+## Keamanan dasar
+
+- Selalu akses lewat HTTPS (Vercel menyediakannya otomatis).
+- Header di `vercel.json` mengaktifkan CSP, `nosniff`, `X-Frame-Options`, dan
+  `Permissions-Policy`.
+- Kata sandi admin lokal hanya UX; untuk keamanan nyata gunakan Supabase Auth + RLS.
+- Jangan pernah menaruh service role key di `assets/js/config.js` — hanya anon key.
+- Reset kata sandi lokal (jika lupa): hapus key `portal-kita:admin:v1` dari
+  `localStorage` browser, lalu buat ulang.
 
 ## Pemeliharaan
 
