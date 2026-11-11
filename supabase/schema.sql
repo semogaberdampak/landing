@@ -26,14 +26,17 @@ create table if not exists public.submissions (
 -- Konten: baca semua, tulis hanya untuk yang login.
 alter table public.portal_content enable row level security;
 
+drop policy if exists "portal_content_read_any" on public.portal_content;
 create policy "portal_content_read_any" on public.portal_content
   for select to anon, authenticated
   using (true);
 
+drop policy if exists "portal_content_write_logged_in" on public.portal_content;
 create policy "portal_content_write_logged_in" on public.portal_content
   for insert to authenticated
   with check (true);
 
+drop policy if exists "portal_content_upsert_logged_in" on public.portal_content;
 create policy "portal_content_upsert_logged_in" on public.portal_content
   for update to authenticated
   using (true)
@@ -42,14 +45,17 @@ create policy "portal_content_upsert_logged_in" on public.portal_content
 -- Usulan: siapa saja bisa mengirim, yang login baca/hapus.
 alter table public.submissions enable row level security;
 
+drop policy if exists "submissions_insert_any" on public.submissions;
 create policy "submissions_insert_any" on public.submissions
   for insert to anon, authenticated
   with check (true);
 
+drop policy if exists "submissions_read_logged_in" on public.submissions;
 create policy "submissions_read_logged_in" on public.submissions
   for select to authenticated
   using (true);
 
+drop policy if exists "submissions_delete_logged_in" on public.submissions;
 create policy "submissions_delete_logged_in" on public.submissions
   for delete to authenticated
   using (true);
