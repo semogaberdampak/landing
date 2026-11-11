@@ -17,6 +17,16 @@
   padding: 10px 10px 0;
 }
 
+/* kunci panel sampai login */
+body.is-locked .adminNav,
+body.is-locked .adminTop__actions,
+body.is-locked .adminPanels {
+  display: none !important;
+}
+body.is-locked #authGate {
+  display: block;
+}
+
 /* ---------- sidebar ---------- */
 .adminSide {
   position: sticky;

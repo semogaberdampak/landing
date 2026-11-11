@@ -569,7 +569,7 @@
     const sub = gate ? gate.querySelector("p") : null;
     if (emailField) emailField.hidden = true;
     if (gate) gate.hidden = false;
-    if (page) page.hidden = true;
+    setLocked(true);
     if (mode === "setup") {
       if (confirmField) confirmField.hidden = false;
       if (title) title.textContent = "Buat kata sandi admin";
@@ -583,6 +583,12 @@
       if (hint) hint.textContent = "";
       if (submit) submit.textContent = "Masuk";
     }
+  }
+
+  function setLocked(locked) {
+    document.body.classList.toggle("is-locked", !!locked);
+    const gate = $("#authGate");
+    if (gate) gate.hidden = !locked;
   }
 
   function initAuth() {
@@ -607,19 +613,20 @@
       authState = session;
       if (session) {
         if (gate) gate.hidden = true;
-        if (page) page.hidden = false;
+        setLocked(false);
         if (state) state.textContent = "Login ok, menunggu sinkron.";
         if (logoutBtn) logoutBtn.hidden = false;
       if (logoutBtn) logoutBtn.addEventListener("click", function () { clearLocalSession(); authState = null; try { window.PortalBackend.signOut(); } catch (e) {} location.reload(); });
         return;
       }
       if (gate) gate.hidden = false;
-      if (page) page.hidden = true;
+      setLocked(true);
       if (state) state.textContent = "Mode cloud (offline)";
       const emailField = $("#authEmailField");
       const confirmField = $("#authConfirmField");
       if (emailField) emailField.hidden = false;
       if (confirmField) confirmField.hidden = true;
+      if (hint) hint.textContent = "Gunakan akun yang dibuat di Supabase → Authentication → Users. Matikan konfirmasi email atau auto-confirm agar login langsung jalan.";
 
       const submit = $("#authSubmit");
       if (submit) {
@@ -634,13 +641,14 @@
             await window.PortalBackend.signIn(email, password);
             authState = window.PortalBackend.readSession();
             if (gate) gate.hidden = true;
-            if (page) page.hidden = false;
+            setLocked(false);
             if (state) state.textContent = "Login ok.";
             if (logoutBtn) logoutBtn.hidden = false;
             await refreshDataFromCloud();
             initSubscription();
           } catch (err) {
-            UI.toast((err && err.message) || "Gagal login.", { type: "danger" });
+            const base = (err && err.message) || "Gagal login.";
+            UI.toast(err && err.status === 400 ? base + " (akun belum ada / email belum terkonfirmasi)" : base, { type: "danger" });
           }
         });
       }
@@ -653,7 +661,7 @@
       showLocalGate("setup");
     } else if (isLocalSessionValid()) {
       if (gate) gate.hidden = true;
-      if (page) page.hidden = false;
+      setLocked(false);
       if (logoutBtn) logoutBtn.hidden = false;
       return;
     } else {
@@ -678,7 +686,7 @@
             await setLocalPassword(password);
             createLocalSession();
             if (gate) gate.hidden = true;
-            if (page) page.hidden = false;
+            setLocked(false);
             if (logoutBtn) logoutBtn.hidden = false;
             UI.toast("Kata sandi admin tersimpan.", { type: "success" });
           } catch (err) {
@@ -693,7 +701,7 @@
         }
         createLocalSession();
         if (gate) gate.hidden = true;
-        if (page) page.hidden = false;
+        setLocked(false);
         if (logoutBtn) logoutBtn.hidden = false;
       });
     }
