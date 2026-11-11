@@ -624,6 +624,7 @@
       if (state) state.textContent = "Mode cloud (offline)";
       const emailField = $("#authEmailField");
       const confirmField = $("#authConfirmField");
+      const hint = $("#authHint");
       if (emailField) emailField.hidden = false;
       if (confirmField) confirmField.hidden = true;
       if (hint) hint.textContent = "Gunakan akun yang dibuat di Supabase → Authentication → Users. Matikan konfirmasi email atau auto-confirm agar login langsung jalan.";
