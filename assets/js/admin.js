@@ -297,6 +297,10 @@
     }
   }
 
+  function tabNavItems() {
+    return $$("#adminNav .adminNav__item");
+  }
+
   function switchTab(tab) {
     if (!TABS[tab]) return;
     if (window.PORTAL_SUPABASE && window.PortalBackend.configured && !authState) {
@@ -773,6 +777,11 @@
   }
 
   function initListEvents() {
+    $$("#adminNav .adminNav__item").forEach(function (item) {
+      item.addEventListener("click", function () {
+        switchTab(item.getAttribute("data-tab"));
+      });
+    });
     document.addEventListener("click", function (event) {
       const moveBtn = event.target.closest("[data-move]");
       const editBtn = event.target.closest("[data-edit]");
