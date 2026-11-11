@@ -1,7 +1,7 @@
----------------------------------------------------------------------------
-Portal KiTA — skema Supabase (hanya jalankan di SQL Editor project)
-Tujuan: situs tetap ringan tanpa SDK, semua akses dibatasi Row Level Security.
----------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------
+-- Portal KiTA — skema Supabase (hanya jalankan di SQL Editor project)
+-- Tujuan: situs tetap ringan tanpa SDK, semua akses dibatasi Row Level Security.
+-- ---------------------------------------------------------------------------
 
 -- 1. Konten website (satu baris = seluruh data yang tampil)
 create table if not exists public.portal_content (
@@ -23,7 +23,7 @@ create table if not exists public.submissions (
 );
 
 -- 3. Kebijakan akses
--- Kontent: baca semua, tulis hanya untuk yang login.
+-- Konten: baca semua, tulis hanya untuk yang login.
 alter table public.portal_content enable row level security;
 
 create policy "portal_content_read_any" on public.portal_content
@@ -56,6 +56,7 @@ create policy "submissions_delete_logged_in" on public.submissions
 
 -- 4. Izin standar (adakalanya diperlukan di lingkungan tanpa auto-grant)
 grant usage on schema public to anon, authenticated;
-grant select on public.portal_content to anon, authenticated;
+grant select, insert, update on public.portal_content to authenticated;
+grant select on public.portal_content to anon;
 grant insert on public.submissions to anon, authenticated;
-grant select on public.submissions to authenticated;
+grant select, delete on public.submissions to authenticated;
