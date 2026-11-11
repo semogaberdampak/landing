@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Portal KiTA — satu pintu, banyak ruang</title>
+    <meta
+      name="description"
+      content="Portal KiTA: kumpulan portal, kelas, panggung, dan ruang kolaborasi anak muda. Dikurasi, ringan, dan bisa dipasang di layar utama."
+    />
+    <meta name="theme-color" content="#fff8ef" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://portalkita.id/" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Portal KiTA" />
+    <meta property="og:site_name" content="Portal KiTA" />
+    <meta property="og:title" content="Portal KiTA — satu pintu, banyak ruang" />
+    <meta property="og:description" content="Satu pintu, banyak ruang buat berkarya. Kumpulan portal anak muda dalam satu halaman." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://portalkita.id/" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:image" content="https://portalkita.id/assets/icons/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Portal KiTA — satu pintu, banyak ruang" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Portal KiTA — satu pintu, banyak ruang" />
+    <meta name="twitter:description" content="Satu pintu, banyak ruang buat berkarya. Kumpulan portal anak muda dalam satu halaman." />
+    <meta name="twitter:image" content="https://portalkita.id/assets/icons/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Portal KiTA",
+        "url": "https://portalkita.id/",
+        "description": "Kumpulan portal, kelas, panggung, dan ruang kolaborasi anak muda dalam satu halaman.",
+        "inLanguage": "id"
+      }
+    </script>
+
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/landing.css" />
+  </head>
+  <body class="is-loading">
+    <a class="skip-link" href="#portal">Langsung ke daftar portal</a>
+
+    <!-- loader -->
+    <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Memuat Portal KiTA">
+      <div class="loader__inner">
+        <div class="loader__orb">
+          <svg class="loader__mark" viewBox="0 0 64 64" width="74" height="74" fill="none" aria-hidden="true">
+            <circle cx="32" cy="32" r="27" stroke="#ffd6a5" stroke-width="1.4" opacity=".5" />
+            <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
+              <path d="M24 20v24" />
+              <path d="M27 32 41 19" />
+              <path d="M27 32 42 45" />
+            </g>
+            <circle cx="47" cy="18" r="2.5" fill="#ffd6a5" />
+          </svg>
+        </div>
+        <p class="loader__brand">Portal <em>KiTA</em></p>
+        <p class="loader__hint" id="loaderHint">Menyiapkan ruang…</p>
+        <div class="loader__bar"><i id="loaderBar"></i></div>
+        <p class="loader__foot">Ruang kolaborasi anak muda</p>
+      </div>
+    </div>
+
+    <!-- aurora -->
+    <div class="aurora" aria-hidden="true">
+      <span class="aurora__blob aurora__blob--1"></span>
+      <span class="aurora__blob aurora__blob--2"></span>
+      <span class="aurora__blob aurora__blob--3"></span>
+      <span class="aurora__veil"></span>
+    </div>
+
+    <div class="page">
+      <header class="topbar">
+        <div class="topbar__inner shell">
+          <a class="brand" href="#atas" aria-label="Portal KiTA, kembali ke atas">
+            <span class="brand__mark">
+              <svg viewBox="0 0 64 64" width="27" height="27" fill="none" aria-hidden="true">
+                <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="1.6" opacity=".4" />
+                <g stroke="currentColor" stroke-width="5.4" stroke-linecap="round">
+                  <path d="M24.5 21v22" />
+                  <path d="M27.5 32 41 19.5" />
+                  <path d="M27.5 32 42 45" />
+                </g>
+                <circle cx="46.5" cy="17.5" r="2.6" fill="#f97316" />
+              </svg>
+            </span>
+            <span class="brand__text">
+              <strong>Portal</strong>
+              <em>KiTA</em>
+            </span>
+          </a>
+
+          <nav class="nav" id="nav" aria-label="Navigasi utama">
+            <a href="#portal">Portal</a>
+            <a href="#kabar">Kabar</a>
+            <a href="#tentang">Tentang</a>
+          </nav>
+
+          <div class="topbar__actions">
+            <button class="btn btn--dark btn--sm btn-install" id="installBtn" type="button" hidden>
+              <span data-icon="install" data-size="17"></span>
+              <span>Pasang</span>
+            </button>
+            <button
+              class="navToggle"
+              id="navToggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="nav"
+              aria-label="Buka menu navigasi"
+            >
+              <span data-icon="menu" data-size="21"></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- hero bento -->
+        <section class="hero shell" id="atas">
+          <div class="hero__grid">
+            <article class="card hero__lead" data-reveal>
+              <span class="hero__badge">
+                <span class="dot-live"></span>
+                <span id="heroBadge">Ruang kolaborasi anak muda</span>
+              </span>
+              <h1 class="hero__title" id="heroTitle">Portal <span class="grad">KiTA</span></h1>
+              <p class="hero__leadline" id="heroLead">Satu pintu, banyak ruang buat berkarya.</p>
+              <p class="hero__text" id="heroText"></p>
+              <div class="hero__actions">
+                <a class="btn btn--primary" id="ctaPrimary" href="#portal">
+                  <span>Jelajahi Portal</span>
+                  <span data-icon="arrowRight" data-size="18"></span>
+                </a>
+                <a class="btn btn--ghost" id="ctaSecondary" href="#kabar">
+                  <span>Baca Kabar</span>
+                </a>
+              </div>
+              <div class="hero__meta">
+                <span class="dot-live"></span>
+                <span id="heroStatus">Portal lagi aktif</span>
+                <span class="sep"></span>
+                <span><b id="heroCount">9</b> ruang terhubung</span>
+                <span class="sep"></span>
+                <span>Dirawat komunitas</span>
+              </div>
+            </article>
+
+            <aside class="card hero__visual" data-reveal>
+              <div class="visual__head">
+                <span>Peta portal</span>
+                <span><span class="dot-live"></span> live</span>
+              </div>
+              <div class="portal" aria-hidden="true">
+                <span class="portal__ring portal__ring--3"></span>
+                <span class="portal__ring"></span>
+                <span class="portal__ring portal__ring--2"></span>
+                <span class="portal__disc">
+                  <span class="portal__core">
+                    <svg viewBox="0 0 64 64" width="46" height="46" fill="none" aria-hidden="true">
+                      <g stroke="currentColor" stroke-width="5.4" stroke-linecap="round">
+                        <path d="M24.5 21v22" />
+                        <path d="M27.5 32 41 19.5" />
+                        <path d="M27.5 32 42 45" />
+                      </g>
+                      <circle cx="46.5" cy="17.5" r="2.6" fill="#7c2d5c" />
+                    </svg>
+                  </span>
+                </span>
+                <span class="portal__chip portal__chip--a" data-icon="spark" data-size="19"></span>
+                <span class="portal__chip portal__chip--b" data-icon="music" data-size="19"></span>
+                <span class="portal__chip portal__chip--c" data-icon="book" data-size="19"></span>
+                <span class="portal__chip portal__chip--d" data-icon="chat" data-size="19"></span>
+              </div>
+              <div class="visual__foot">
+                <span><b id="visualCount">9</b> ruang dalam satu pintu</span>
+                <span>geser untuk mulai</span>
+              </div>
+            </aside>
+
+            <div class="hero__stats" id="heroStats" aria-label="Angka komunitas"></div>
+          </div>
+        </section>
+
+        <!-- marquee -->
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee__track" id="marqueeTrack"></div>
+        </div>
+
+        <!-- daftar portal -->
+        <section class="section shell" id="portal">
+          <div class="section__head" data-reveal>
+            <div>
+              <p class="eyebrow">Jelajahi</p>
+              <h2 class="section__title">Pilih <em>pintu</em> masukmu</h2>
+            </div>
+            <p class="section__sub">
+              Semua ruang di bawah ini aktif dan sudah dicek berkala. Klik salah satu, kamu langsung dibawa ke
+              tempatnya.
+            </p>
+          </div>
+          <div class="linkGrid" id="linkGrid"></div>
+        </section>
+
+        <!-- kabar -->
+        <section class="section shell" id="kabar">
+          <div class="section__head" data-reveal>
+            <div>
+              <p class="eyebrow">Kabar KiTA</p>
+              <h2 class="section__title">Yang lagi <em>jalan</em></h2>
+            </div>
+            <p class="section__sub">
+              Agenda terdekat, pendaftaran yang dibuka, dan hal-hal baru di komunitas.
+            </p>
+          </div>
+          <div class="kabarGrid" id="kabarGrid"></div>
+        </section>
+
+        <!-- tentang -->
+        <section class="section shell" id="tentang">
+          <div class="aboutGrid">
+            <article class="card aboutCard" data-reveal>
+              <p class="eyebrow">Tentang</p>
+              <h2 class="aboutCard__title" id="aboutTitle">Bukan cuma daftar tautan.</h2>
+              <p class="aboutCard__text" id="aboutText"></p>
+              <div class="points" id="aboutPoints"></div>
+            </article>
+
+            <aside class="card contactCard" data-reveal>
+              <p class="eyebrow">Kolaborasi</p>
+              <h2 class="contactCard__title">Punya ruang yang layak masuk sini?</h2>
+              <p class="contactCard__text">
+                Usulin portal, kegiatan, atau ide kolaborasi. Tim kurator kami cek tiap minggu dan balas kalau
+                ruangnya cocok.
+              </p>
+              <div class="contactCard__actions">
+                <a class="btn btn--primary btn--sm" id="contactBtn" href="mailto:halo@portalkita.id">
+                  <span data-icon="link" data-size="16"></span>
+                  <span id="contactLabel">Sapa Kami</span>
+                </a>
+                <button class="btn btn--ghost btn--sm" id="installBtn2" type="button" hidden>
+                  <span data-icon="install" data-size="16"></span>
+                  <span>Pasang aplikasi</span>
+                </button>
+              </div>
+              <p class="contactCard__hint">
+                <span data-icon="shield" data-size="15"></span>
+                <span id="installHint">Pasang Portal KiTA di layar utama — ringan, cepat, bisa dibuka tanpa sinyal.</span>
+              </p>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <!-- usulan -->
+      <section class="section shell" id="usulan">
+        <article class="card aboutCard" data-reveal>
+          <p class="eyebrow">Usulan</p>
+          <h2 class="aboutCard__title">Punya ruang yang layak masuk sini?</h2>
+          <p class="aboutCard__text">Usulkan portal, kegiatan, atau ide kolaborasi. Kami cek tiap minggu.</p>
+          <form id="suggestionForm" class="ui-form" style="margin-top:14px">
+            <label class="ui-field"><span class="ui-field__label">Nama</span><input class="ui-input" name="name" maxlength="80" required /></label>
+            <label class="ui-field"><span class="ui-field__label">Kontak</span><input class="ui-input" name="contact" maxlength="200" placeholder="email / WA" /></label>
+            <label class="ui-field"><span class="ui-field__label">Nama portal</span><input class="ui-input" name="portal_name" maxlength="80" required /></label>
+            <label class="ui-field"><span class="ui-field__label">Alamat portal</span><input class="ui-input" name="portal_url" type="url" maxlength="500" placeholder="https://..." required /></label>
+            <label class="ui-field ui-field--full"><span class="ui-field__label">Pesan</span><textarea class="ui-input" name="message" rows="3" maxlength="1000"></textarea></label>
+            <div class="panelCard__foot">
+              <button class="btn btn--primary btn--sm" type="submit">Kirim usulan</button>
+              <span id="suggestionState" class="panelCard__state"></span>
+            </div>
+          </form>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <div class="footer__inner shell">
+          <div>
+            <div class="footer__brand">
+              <span class="brand__mark" id="footerMark"></span>
+              <div>
+                <p class="brand__text"><strong>Portal</strong><em>KiTA</em></p>
+              </div>
+            </div>
+            <p class="footer__note" style="margin-top: 10px" id="footerNote">
+              Dibangun bareng, untuk kita semua.
+            </p>
+          </div>
+          <div class="footer__right">
+            <div class="footer__meta">
+              <span class="dot-live"></span>
+              <span>© <span id="year">2026</span> Portal KiTA</span>
+              <span>·</span>
+              <a href="privasi.html">Privasi</a>
+              <span>·</span>
+              <span>Dibuat dengan Ubuntu &amp; aurora</span>
+            </div>
+            <button class="adminDot" id="adminDot" type="button" aria-label="Akses pengelola"></button>
+          </div>
+        </div>
+      </footer>
+
+      <button class="toTop" id="toTop" type="button" aria-label="Kembali ke atas">
+        <span data-icon="up" data-size="19"></span>
+      </button>
+
+      <div class="offlinePill" id="offlinePill" role="status">
+        <span data-icon="offline" data-size="15"></span>
+        <span>Mode offline · konten tersimpan di perangkat</span>
+      </div>
+    </div>
+
+    <script src="assets/js/config.js" defer></script>
+    <script src="assets/js/store.js" defer></script>
+    <script src="assets/js/ui.js" defer></script>
+    <script src="assets/js/backend.js" defer></script>
+    <script src="assets/js/landing.js" defer></script>
+  </body>
+</html>

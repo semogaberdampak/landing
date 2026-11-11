@@ -1,0 +1,153 @@
+<!--
+  Sumber kartu OG (1200x630). Tangkap ulang dengan Chrome:
+  chrome --headless=new --disable-gpu --hide-scrollbars \
+    --force-device-scale-factor=1 --window-size=1200,630 \
+    --screenshot=<path absolut>/assets/icons/og-image.png \
+    <path absolut>/tools/og-card.html
+  Catatan: Chrome perlu path absolut untuk --screenshot.
+-->
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <title>Portal KiTA — kartu OG</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        font-family: "Ubuntu", "Segoe UI", system-ui, sans-serif;
+        background: #fff8ef;
+        color: #43182f;
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 72px 80px;
+      }
+      .glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: 0.55;
+      }
+      .glow--a { width: 620px; height: 620px; left: -140px; top: -220px; background: #ffd6a5; }
+      .glow--b { width: 560px; height: 560px; right: -120px; bottom: -260px; background: #ffa23a; opacity: 0.35; }
+      .glow--c { width: 420px; height: 420px; right: 220px; top: -180px; background: #f4c7d8; opacity: 0.6; }
+      .content { position: relative; z-index: 1; max-width: 700px; }
+      .brand { display: flex; align-items: center; gap: 16px; margin-bottom: 42px; }
+      .brand__mark {
+        width: 62px; height: 62px; border-radius: 20px;
+        display: grid; place-items: center;
+        background: #43182f; color: #ffd6a5;
+        box-shadow: 0 16px 34px rgba(67, 24, 47, 0.28);
+      }
+      .brand__name { font-size: 27px; font-weight: 500; letter-spacing: -0.01em; }
+      .brand__name em { font-style: normal; color: #e2620d; }
+      .badge {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(217, 106, 24, 0.22);
+        color: #8a3d0c;
+        padding: 10px 18px; border-radius: 999px;
+        font-size: 17px; font-weight: 500;
+        margin-bottom: 22px;
+      }
+      .badge i { width: 9px; height: 9px; border-radius: 50%; background: #f97316; }
+      h1 {
+        font-size: 104px; line-height: 0.98; letter-spacing: -0.045em;
+        font-weight: 500; margin-bottom: 24px;
+      }
+      h1 em {
+        font-style: normal;
+        background: linear-gradient(100deg, #f97316, #e2620d 55%, #a83a5b);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      p { font-size: 27px; line-height: 1.45; color: #6b4a58; max-width: 600px; }
+      .foot {
+        position: absolute; left: 80px; bottom: 58px; z-index: 1;
+        display: flex; align-items: center; gap: 14px;
+        font-size: 18px; color: #8a6a76;
+      }
+      .foot span { width: 46px; height: 3px; border-radius: 3px; background: #f97316; }
+      .art {
+        position: absolute; right: 76px; top: 50%; transform: translateY(-50%);
+        width: 400px; height: 400px; z-index: 1;
+      }
+      .ring {
+        position: absolute; inset: 0; border-radius: 50%;
+        border: 2px dashed rgba(217, 106, 24, 0.28);
+      }
+      .ring--2 { inset: 44px; border-style: solid; border-color: rgba(217, 106, 24, 0.18); }
+      .disc {
+        position: absolute; inset: 88px; border-radius: 50%;
+        background: linear-gradient(150deg, #ffb066, #f97316 55%, #d9541f);
+        box-shadow: 0 34px 70px rgba(217, 84, 31, 0.35), inset 0 -18px 40px rgba(124, 45, 92, 0.22);
+        display: grid; place-items: center; color: #fff8ef;
+      }
+      .chip {
+        position: absolute; width: 64px; height: 64px; border-radius: 20px;
+        background: rgba(255, 253, 249, 0.95);
+        border: 1px solid rgba(217, 106, 24, 0.16);
+        box-shadow: 0 14px 30px rgba(67, 24, 47, 0.14);
+        display: grid; place-items: center; color: #e2620d;
+      }
+      .chip--a { left: -26px; top: 54px; }
+      .chip--b { right: -18px; top: 120px; }
+      .chip--c { left: 6px; bottom: 28px; }
+      .chip--d { right: 22px; bottom: -10px; }
+    </style>
+  </head>
+  <body>
+    <span class="glow glow--a"></span>
+    <span class="glow glow--b"></span>
+    <span class="glow glow--c"></span>
+
+    <div class="content">
+      <div class="brand">
+        <span class="brand__mark">
+          <svg viewBox="0 0 64 64" width="36" height="36" fill="none" aria-hidden="true">
+            <g stroke="currentColor" stroke-width="5.4" stroke-linecap="round">
+              <path d="M24.5 21v22" />
+              <path d="M27.5 32 41 19.5" />
+              <path d="M27.5 32 42 45" />
+            </g>
+            <circle cx="46.5" cy="17.5" r="2.6" fill="#ffa23a" />
+          </svg>
+        </span>
+        <span class="brand__name">Portal <em>KiTA</em></span>
+      </div>
+
+      <span class="badge"><i></i> Satu pintu, banyak ruang</span>
+      <h1>Portal <em>KiTA</em></h1>
+      <p>Kumpulan portal, kelas, panggung, dan ruang kolaborasi anak muda dalam satu halaman.</p>
+    </div>
+
+    <div class="art" aria-hidden="true">
+      <span class="ring"></span>
+      <span class="ring ring--2"></span>
+      <span class="disc">
+        <svg viewBox="0 0 64 64" width="150" height="150" fill="none">
+          <g stroke="currentColor" stroke-width="5.2" stroke-linecap="round">
+            <path d="M24.5 21v22" />
+            <path d="M27.5 32 41 19.5" />
+            <path d="M27.5 32 42 45" />
+          </g>
+          <circle cx="46.5" cy="17.5" r="2.8" fill="#43182f" />
+        </svg>
+      </span>
+      <span class="chip chip--a">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      </span>
+      <span class="chip chip--b">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+      </span>
+      <span class="chip chip--c">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h13v18H6a2 2 0 0 1-2-2Z"/><path d="M8 3v18"/></svg>
+      </span>
+      <span class="chip chip--d">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H8l-5 2 1.6-4.8A8 8 0 1 1 21 12Z"/></svg>
+      </span>
+    </div>
+
+    <div class="foot"><span></span> portalkita.id · bisa dipasang di layar utama</div>
+  </body>
+</html>

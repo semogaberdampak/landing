@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Panel pengelola tidak untuk mesin pencari.
+Disallow: /admin.html
+
+Sitemap: https://portalkita.id/sitemap.xml

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Panel Pengelola — Portal KiTA</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#43182f" />
+    <meta name="color-scheme" content="light" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="KiTA Admin" />
+    <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/base.css" />
+    <link rel="stylesheet" href="assets/css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Memuat panel pengelola">
+      <div class="loader__inner">
+        <div class="loader__orb">
+          <svg class="loader__mark" viewBox="0 0 64 64" width="74" height="74" fill="none" aria-hidden="true">
+            <circle cx="32" cy="32" r="27" stroke="#ffd6a5" stroke-width="1.4" opacity=".5" />
+            <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
+              <path d="M24 20v24" />
+              <path d="M27 32 41 19" />
+              <path d="M27 32 42 45" />
+            </g>
+            <circle cx="47" cy="18" r="2.5" fill="#ffd6a5" />
+          </svg>
+        </div>
+        <p class="loader__brand">Panel <em>KiTA</em></p>
+        <p class="loader__hint" id="loaderHint">Membuka ruang kerja…</p>
+        <div class="loader__bar"><i id="loaderBar"></i></div>
+        <p class="loader__foot">Data tersimpan di perangkat ini</p>
+      </div>
+    </div>
+
+    <div class="aurora adminAurora" aria-hidden="true">
+      <span class="aurora__blob aurora__blob--1"></span>
+      <span class="aurora__blob aurora__blob--2"></span>
+      <span class="aurora__blob aurora__blob--3"></span>
+    </div>
+
+    <div class="page admin">
+      <aside class="adminSide">
+        <a class="adminBrand" href="index.html">
+          <span class="adminBrand__mark">
+            <svg viewBox="0 0 64 64" width="30" height="30" fill="none" aria-hidden="true">
+              <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="1.6" opacity=".45" />
+              <g stroke="currentColor" stroke-width="5.4" stroke-linecap="round">
+                <path d="M24.5 21v22" />
+                <path d="M27.5 32 41 19.5" />
+                <path d="M27.5 32 42 45" />
+              </g>
+              <circle cx="46.5" cy="17.5" r="2.6" fill="#ffa23a" />
+            </svg>
+          </span>
+          <span class="adminBrand__text">
+            <strong>Portal KiTA</strong>
+            <em>Panel pengelola</em>
+          </span>
+        </a>
+
+        <nav class="adminNav" id="adminNav" aria-label="Menu pengelola">
+          <button class="adminNav__item is-active" type="button" data-tab="links">
+            <span data-icon="grid" data-size="19"></span>
+            <span>Portal</span>
+            <span class="adminNav__count" data-count="links">9</span>
+          </button>
+          <button class="adminNav__item" type="button" data-tab="stats">
+            <span data-icon="target" data-size="19"></span>
+            <span>Statistik</span>
+            <span class="adminNav__count" data-count="stats">3</span>
+          </button>
+          <button class="adminNav__item" type="button" data-tab="notes">
+            <span data-icon="pen" data-size="19"></span>
+            <span>Kabar</span>
+            <span class="adminNav__count" data-count="notes">3</span>
+          </button>
+          <button class="adminNav__item" type="button" data-tab="about">
+            <span data-icon="leaf" data-size="19"></span>
+            <span>Tentang</span>
+          </button>
+          <button class="adminNav__item" type="button" data-tab="settings">
+            <span data-icon="prism" data-size="19"></span>
+            <span>Tampilan</span>
+          </button>
+          <button class="adminNav__item" type="button" data-tab="data">
+            <span data-icon="shield" data-size="19"></span>
+            <span>Data</span>
+          </button>
+          <button class="adminNav__item" type="button" data-tab="submissions">
+            <span data-icon="chat" data-size="19"></span>
+            <span>Usulan</span>
+            <span class="adminNav__count" data-count="submissions">0</span>
+          </button>
+        </nav>
+
+        <div class="adminSide__foot">
+          <div class="sideStat">
+            <span class="sideStat__dot"></span>
+            <span>Sumber data: perangkat ini</span>
+          </div>
+          <p class="sideStat__note">
+            Perubahan langsung tersimpan di localStorage dan dipakai website saat dibuka.
+          </p>
+          <a class="btn btn--ghost btn--sm" href="index.html">
+            <span data-icon="arrowRight" data-size="16"></span>
+            <span>Lihat website</span>
+          </a>
+        </div>
+      </aside>
+
+      <main class="adminMain">
+        <header class="adminTop">
+          <div class="adminTop__title">
+            <p class="adminTop__eyebrow">Panel pengelola</p>
+            <h1 id="adminTitle">Portal</h1>
+            <p class="adminTop__sub" id="adminSub">Kelola semua pintu yang tampil di halaman utama.</p>
+          </div>
+          <div class="adminTop__actions">
+            <span class="saveState" id="saveState">
+              <span data-icon="check" data-size="14"></span>
+              <span>Tersimpan otomatis</span>
+            </span>
+            <button class="btn btn--primary btn--sm" id="addBtn" type="button">
+              <span data-icon="plus" data-size="17"></span>
+              <span id="addBtnLabel">Tambah portal</span>
+            </button>
+          </div>
+        </header>
+
+        <div class="offlineBanner" id="offlineBanner" role="status" hidden>
+          <span data-icon="offline" data-size="18"></span>
+          <div>
+            <strong>Kamu sedang offline.</strong>
+            <p>Panel ini tetap jalan dan semua perubahan disimpan di perangkat ini.</p>
+          </div>
+        </div>
+
+        <div id="authGate" class="panelCard" hidden style="margin-bottom:16px">
+          <div class="panelCard__head">
+            <div>
+              <h2>Login pengelola</h2>
+              <p>Masuk untuk mengelola konten cloud.</p>
+            </div>
+          </div>
+          <div class="ui-form">
+            <label class="ui-field"><span class="ui-field__label">Email</span><input class="ui-input" id="authEmail" type="email" /></label>
+            <label class="ui-field"><span class="ui-field__label">Kata sandi</span><input class="ui-input" id="authPassword" type="password" /></label>
+          </div>
+          <div class="panelCard__foot">
+            <button class="btn btn--primary btn--sm" id="authSubmit" type="button">Masuk</button>
+            <span id="authState" class="panelCard__state"></span>
+          </div>
+        </div>
+        <div class="adminPanels">
+          <!-- PORTAL -->
+          <section class="adminPanel" data-panel="links">
+            <div class="adminToolbar">
+              <label class="adminSearch" for="linkSearch">
+                <span data-icon="search" data-size="17"></span>
+                <input id="linkSearch" type="search" placeholder="Cari portal, tag, atau alamat…" autocomplete="off" />
+              </label>
+              <p class="adminCount" id="linkCount">9 portal</p>
+            </div>
+            <div class="adminList" id="linkList"></div>
+          </section>
+
+          <!-- STATISTIK -->
+          <section class="adminPanel" data-panel="stats" hidden>
+            <div class="adminToolbar">
+              <p class="adminCount" id="statCount">3 statistik</p>
+              <p class="adminToolbar__hint">Angka singkat yang tampil di bawah hero.</p>
+            </div>
+            <div class="adminList" id="statList"></div>
+          </section>
+
+          <!-- KABAR -->
+          <section class="adminPanel" data-panel="notes" hidden>
+            <div class="adminToolbar">
+              <p class="adminCount" id="noteCount">3 kabar</p>
+              <p class="adminToolbar__hint">Agenda &amp; pengumuman di bagian “Yang lagi jalan”.</p>
+            </div>
+            <div class="adminList" id="noteList"></div>
+          </section>
+
+          <!-- TENTANG -->
+          <section class="adminPanel" data-panel="about" hidden>
+            <form class="panelCard" id="aboutForm" novalidate>
+              <div class="panelCard__head">
+                <div>
+                  <h2>Teks tentang</h2>
+                  <p>Cerita singkat yang muncul di kartu “Tentang”.</p>
+                </div>
+              </div>
+              <div class="ui-form">
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Judul</span>
+                  <input class="ui-input" name="aboutTitle" maxlength="90" />
+                </label>
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Deskripsi</span>
+                  <textarea class="ui-input" name="aboutText" rows="4" maxlength="520"></textarea>
+                </label>
+              </div>
+              <div class="panelCard__foot">
+                <span class="panelCard__state" data-state></span>
+                <button class="btn btn--primary btn--sm" type="submit">
+                  <span data-icon="save" data-size="16"></span>
+                  <span>Simpan teks</span>
+                </button>
+              </div>
+            </form>
+
+            <div class="panelCard">
+              <div class="panelCard__head">
+                <div>
+                  <h2>Titik sorot</h2>
+                  <p>Tiga poin pendukung di bawah teks tentang.</p>
+                </div>
+                <button class="btn btn--soft btn--sm" id="addPointBtn" type="button">
+                  <span data-icon="plus" data-size="16"></span>
+                  <span>Tambah poin</span>
+                </button>
+              </div>
+              <div class="adminList" id="pointList"></div>
+            </div>
+          </section>
+
+          <!-- TAMPILAN -->
+          <section class="adminPanel" data-panel="settings" hidden>
+            <form class="panelCard" data-settings-form="hero" novalidate>
+              <div class="panelCard__head">
+                <div>
+                  <h2>Hero &amp; identitas</h2>
+                  <p>Teks utama yang pertama dibaca pengunjung.</p>
+                </div>
+              </div>
+              <div class="ui-form">
+                <label class="ui-field">
+                  <span class="ui-field__label">Nama merek</span>
+                  <input class="ui-input" name="brand" data-site maxlength="40" />
+                </label>
+                <label class="ui-field">
+                  <span class="ui-field__label">Badge kecil</span>
+                  <input class="ui-input" name="badge" data-site maxlength="60" />
+                </label>
+                <label class="ui-field">
+                  <span class="ui-field__label">Judul hero</span>
+                  <input class="ui-input" name="heroTitle" data-site maxlength="40" />
+                </label>
+                <label class="ui-field">
+                  <span class="ui-field__label">Kata disorot</span>
+                  <input class="ui-input" name="heroHighlight" data-site maxlength="20" />
+                  <p class="ui-field__hint">Satu kata dari judul yang diberi warna gradien.</p>
+                </label>
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Kalimat pembuka</span>
+                  <input class="ui-input" name="heroLead" data-site maxlength="90" />
+                </label>
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Paragraf pendukung</span>
+                  <textarea class="ui-input" name="heroText" data-site rows="3" maxlength="320"></textarea>
+                </label>
+                <label class="ui-field">
+                  <span class="ui-field__label">Label tombol utama</span>
+                  <input class="ui-input" name="ctaPrimary" data-site maxlength="30" />
+                </label>
+                <label class="ui-field">
+                  <span class="ui-field__label">Label tombol kedua</span>
+                  <input class="ui-input" name="ctaSecondary" data-site maxlength="30" />
+                </label>
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Status kecil di hero</span>
+                  <input class="ui-input" name="statusText" data-site maxlength="60" />
+                </label>
+              </div>
+              <div class="panelCard__foot">
+                <span class="panelCard__state" data-state></span>
+                <button class="btn btn--primary btn--sm" type="submit">
+                  <span data-icon="save" data-size="16"></span>
+                  <span>Simpan hero</span>
+                </button>
+              </div>
+            </form>
+
+            <form class="panelCard" data-settings-form="marquee" novalidate>
+              <div class="panelCard__head">
+                <div>
+                  <h2>Pita berjalan</h2>
+                  <p>Kata-kata yang bergerak di bawah hero. Satu baris = satu kata.</p>
+                </div>
+              </div>
+              <div class="ui-form">
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Daftar kata</span>
+                  <textarea class="ui-input" name="marquee" data-site rows="4" placeholder="Kolaborasi&#10;Karya&#10;Belajar"></textarea>
+                </label>
+              </div>
+              <div class="panelCard__foot">
+                <span class="panelCard__state" data-state></span>
+                <button class="btn btn--primary btn--sm" type="submit">
+                  <span data-icon="save" data-size="16"></span>
+                  <span>Simpan pita</span>
+                </button>
+              </div>
+            </form>
+
+            <form class="panelCard" data-settings-form="contact" novalidate>
+              <div class="panelCard__head">
+                <div>
+                  <h2>Kontak &amp; footer</h2>
+                  <p>Tombol “Sapa Kami”, catatan footer, dan ajakan memasang aplikasi.</p>
+                </div>
+              </div>
+              <div class="ui-form">
+                <label class="ui-field">
+                  <span class="ui-field__label">Label kontak</span>
+                  <input class="ui-input" name="contactLabel" data-site maxlength="30" />
+                </label>
+                <label class="ui-field">
+                  <span class="ui-field__label">Alamat kontak</span>
+                  <input class="ui-input" name="contactUrl" data-site type="url" placeholder="mailto:halo@portalkita.id" />
+                </label>
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Catatan footer</span>
+                  <input class="ui-input" name="footerNote" data-site maxlength="120" />
+                </label>
+                <label class="ui-field ui-field--full">
+                  <span class="ui-field__label">Teks ajakan pasang aplikasi</span>
+                  <textarea class="ui-input" name="installHint" data-site rows="2" maxlength="180"></textarea>
+                </label>
+              </div>
+              <div class="panelCard__foot">
+                <span class="panelCard__state" data-state></span>
+                <button class="btn btn--primary btn--sm" type="submit">
+                  <span data-icon="save" data-size="16"></span>
+                  <span>Simpan kontak</span>
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- DATA -->
+          <section class="adminPanel" data-panel="data" hidden>
+            <div class="dataGrid">
+              <article class="panelCard">
+                <div class="panelCard__head">
+                  <div>
+                    <h2>Ringkasan data</h2>
+                    <p>Semua konten website tersimpan di perangkat ini.</p>
+                  </div>
+                </div>
+                <div class="dataStats" id="dataStats"></div>
+                <div class="panelCard__foot panelCard__foot--split">
+                  <span class="panelCard__state" id="lastSaved">Belum pernah diubah</span>
+                  <span class="storageMeter" id="storageMeter">—</span>
+                </div>
+              </article>
+
+              <article class="panelCard">
+                <div class="panelCard__head">
+                  <div>
+                    <h2>Cadangkan &amp; pulihkan</h2>
+                    <p>Unduh salinan JSON, atau pulihkan dari berkas cadangan.</p>
+                  </div>
+                </div>
+                <div class="dataActions">
+                  <button class="btn btn--dark btn--sm" id="exportBtn" type="button">
+                    <span data-icon="download" data-size="16"></span>
+                    <span>Unduh cadangan</span>
+                  </button>
+                  <button class="btn btn--ghost btn--sm" id="importBtn" type="button">
+                    <span data-icon="upload" data-size="16"></span>
+                    <span>Pulihkan dari berkas</span>
+                  </button>
+                  <input type="file" id="importFile" accept="application/json,.json" hidden />
+                </div>
+                <p class="dataNote">
+                  Cadangan berguna kalau kamu pindah perangkat atau ingin mengembalikan konten setelah
+                  bereksperimen.
+                </p>
+              </article>
+
+              <article class="panelCard panelCard--danger">
+                <div class="panelCard__head">
+                  <div>
+                    <h2>Mulai dari awal</h2>
+                    <p>Menghapus semua perubahan dan mengembalikan konten contoh.</p>
+                  </div>
+                </div>
+                <div class="dataActions">
+                  <button class="btn btn--danger btn--sm" id="resetBtn" type="button">
+                    <span data-icon="refresh" data-size="16"></span>
+                    <span>Reset ke konten contoh</span>
+                  </button>
+                </div>
+                <p class="dataNote">Tindakan ini tidak bisa dibatalkan. Unduh cadangan dulu kalau ragu.</p>
+              </article>
+            </div>
+          </section>
+
+          <!-- USULAN -->
+          <section class="adminPanel" data-panel="submissions" hidden>
+            <div class="adminToolbar">
+              <p class="adminCount" id="submissionCount">0 usulan</p>
+              <p class="adminToolbar__hint">Usulan dari pengunjung.</p>
+            </div>
+            <div class="adminList" id="submissionList"></div>
+          </section>
+        </div>
+
+        <p class="adminFooter">
+          <span data-icon="shield" data-size="14"></span>
+          <span>Portal KiTA · panel pengelola lokal. Data tidak dikirim ke server.</span>
+        </p>
+      </main>
+    </div>
+
+    <script src="assets/js/config.js" defer></script>
+    <script src="assets/js/store.js" defer></script>
+    <script src="assets/js/ui.js" defer></script>
+    <script src="assets/js/backend.js" defer></script>
+    <script src="assets/js/admin.js" defer></script>
+  </body>
+</html>

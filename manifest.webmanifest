@@ -1,0 +1,71 @@
+{
+  "name": "Portal KiTA",
+  "short_name": "KiTA",
+  "description": "Satu pintu, banyak ruang buat berkarya. Portal kolaborasi anak muda yang ringan dan bisa dipasang di layar utama.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#43182f",
+  "theme_color": "#fff8ef",
+  "lang": "id",
+  "dir": "ltr",
+  "categories": ["community", "education", "social"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Jelajahi Portal",
+      "short_name": "Portal",
+      "description": "Langsung ke daftar ruang komunitas",
+      "url": "./index.html#portal",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Kabar KiTA",
+      "short_name": "Kabar",
+      "description": "Agenda dan pengumuman terbaru",
+      "url": "./index.html#kabar",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}

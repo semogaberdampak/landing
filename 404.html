@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ruang tidak ditemukan — Portal KiTA</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#fff8ef" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/assets/icons/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <style>
+      .nf {
+        position: relative;
+        z-index: 1;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: clamp(20px, 6vw, 56px);
+      }
+      .nf__card {
+        width: min(620px, 100%);
+        background: var(--card, #fffdf9);
+        border: 1px solid var(--line, rgba(67, 24, 47, 0.1));
+        border-radius: 30px;
+        padding: clamp(28px, 5vw, 48px);
+        box-shadow: 0 24px 60px rgba(67, 24, 47, 0.12);
+        text-align: center;
+      }
+      .nf__mark {
+        display: inline-grid;
+        place-items: center;
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+        background: var(--ink, #43182f);
+        color: #ffd6a5;
+        margin-bottom: 20px;
+      }
+      .nf__code {
+        font-size: clamp(64px, 16vw, 104px);
+        line-height: 1;
+        letter-spacing: -0.05em;
+        font-weight: 500;
+        color: #f97316;
+        margin: 0 0 10px;
+      }
+      .nf__title {
+        font-size: clamp(24px, 4vw, 32px);
+        letter-spacing: -0.02em;
+        margin: 0 0 12px;
+      }
+      .nf__text {
+        color: var(--muted, #7a5c69);
+        line-height: 1.65;
+        margin: 0 auto 26px;
+        max-width: 42ch;
+      }
+      .nf__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+      }
+      .nf__foot {
+        margin-top: 28px;
+        font-size: 14px;
+        color: var(--muted, #7a5c69);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true">
+      <span class="aurora__blob aurora__blob--1"></span>
+      <span class="aurora__blob aurora__blob--2"></span>
+      <span class="aurora__blob aurora__blob--3"></span>
+    </div>
+
+    <main class="nf">
+      <section class="nf__card">
+        <span class="nf__mark">
+          <svg viewBox="0 0 64 64" width="34" height="34" fill="none" aria-hidden="true">
+            <g stroke="currentColor" stroke-width="5.4" stroke-linecap="round">
+              <path d="M24.5 21v22" />
+              <path d="M27.5 32 41 19.5" />
+              <path d="M27.5 32 42 45" />
+            </g>
+            <circle cx="46.5" cy="17.5" r="2.6" fill="#ffa23a" />
+          </svg>
+        </span>
+        <p class="nf__code">404</p>
+        <h1 class="nf__title">Pintu ini belum ada</h1>
+        <p class="nf__text">
+          Alamat yang kamu buka tidak ditemukan. Mungkin tautannya berubah, atau ruangnya sudah dipindahkan.
+          Kembali saja ke portal utama.
+        </p>
+        <div class="nf__actions">
+          <a class="btn btn--primary" href="/">Buka Portal KiTA</a>
+          <a class="btn btn--ghost" href="/#portal">Lihat daftar portal</a>
+        </div>
+        <p class="nf__foot">Portal KiTA · satu pintu, banyak ruang</p>
+      </section>
+    </main>
+  </body>
+</html>
